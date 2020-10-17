@@ -21,20 +21,49 @@
 “ед”: [“шт.”]
 }
 """
+characteristic_list = []
+# Коллекция уникальных характеристик (не использовал set, т.к. он не сохраняет сортировку)
+distinct_characteristics = []
 good_id = 0
 goods_list = []
+# Опрашиваем характеристики товаров
 while True:
-    good_id += 1
-    good_name = input('Название товара>>> ')
-    good_price = float(input('Цена>>> ').replace(',', '.'))
-    good_count = float(input('Количество>>> '))
-    good_count_measure = input('Единица измерения>>> ')
-    goods_list.append((good_id, {'Name': good_name,
-                                 'price': good_price,
-                                 'count': good_count,
-                                 'measure': good_count_measure}))
-    if input('exit? [y/n]').lower() == 'y':
+    user_input = input('Введите характеристику товара (q для выхода)>>> ')
+    if user_input == 'q':
         break
+    characteristic_list.append(user_input)
+
+# Удаляем дублирующиеся характеристики
+for item in characteristic_list:  
+    if item not in distinct_characteristics:
+        distinct_characteristics.append(item)
+
+while True:  # Опрашиваем товары
+    user_input = input('Добавить товар? [y/n]')
+    if user_input == 'n':
+        break
+    elif user_input != 'y':
+        print('Не понял - попробуйте еще раз.')
+        continue
+    good_dict = {}
+    for characteristic in distinct_characteristics:
+        user_input = input(f'{characteristic}>>> ')
+        try:  # если возможно преобразовать в число - преобразуем
+            float_val = float(user_input)
+            good_dict.update({characteristic: float_val})
+        except ValueError:  # Иначе добавляем значение как есть
+            good_dict.update({characteristic: user_input})
+    good_id += 1
+    goods_list.append((good_id, good_dict))
+
+# создаем словарь
 goods_dict = {}
-
-
+for characteristic in distinct_characteristics:
+    current_characteristic_values = []
+    for item in goods_list:
+        current_characteristic_values.append(item[1][characteristic])
+    # Здесь можно было бы добавлять в качестве значения set, но подумал что это было бы не логично, т.к.
+    # потом было бы проблематично соотносить значения с конкретным товаром
+    goods_dict.update({characteristic: current_characteristic_values})
+print('Сформированный словарь:')
+print(goods_dict)
