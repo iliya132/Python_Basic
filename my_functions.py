@@ -34,3 +34,10 @@ def my_cycle(list):
         if i == len(list):
             i = 0
 
+
+def my_enumerate(list, start_index = 0):
+    for item in list:
+        yield start_index, item
+        start_index += 1
+
+

@@ -1,11 +1,29 @@
-from my_functions import my_reduce as reduce
-"""5. Реализовать формирование списка, используя функцию range() и возможности генератора.
-В список должны войти четные числа от 100 до 1000 (включая границы).
-Необходимо получить результат вычисления произведения всех элементов списка.
-Подсказка: использовать функцию reduce()."""
+"""5. Создать (программно) текстовый файл, записать в него программно набор чисел, разделенных пробелами.
+Программа должна подсчитывать сумму чисел в файле и выводить ее на экран."""
 
-list = [itm for itm in range(100, 1001)
-        if not itm & 1]
-print(list)
-product = reduce(lambda x,y: x*y, list)
-print(product)
+
+def file_sum(file):
+        lines = file.read().splitlines()
+        numbers = []
+        try:
+            for line in lines:
+                for num in line.split(" "):
+                    numbers.append(int(num))
+        except ValueError:
+            pass
+        return sum(numbers)
+
+
+res_file_name = "Task5Result.txt"
+_ = open(res_file_name, "w")
+while True:
+    user_input = input('Введите числа, разделенные пробелами (q для выхода)>>> ')
+    if user_input == 'q':
+        break
+    with open(res_file_name, "a") as output:
+        output.write(f'{user_input}\n')
+
+file = open(res_file_name, "r")
+print(file_sum(file))
+
+
