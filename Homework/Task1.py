@@ -3,7 +3,7 @@
 
 with open("TaskResult.txt", "w") as file:
     while True:
-        user_input = input(">>>")
+        user_input = input("Введите любую строку>>>")
         if user_input == "":
             break
         file.write(f'{user_input}\n')

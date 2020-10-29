@@ -25,5 +25,3 @@ while True:
 
 file = open(res_file_name, "r")
 print(file_sum(file))
-
-

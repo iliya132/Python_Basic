@@ -3,7 +3,7 @@
 Выполнить подсчет средней величины дохода сотрудников.
 """
 
-file = open("Employees.txt", "r")
+file = open("Employees.txt", "r", encoding="UTF-8")
 lines = file.read().splitlines()  # Читаю так что бы убрать \n
 file.close()
 print(lines)

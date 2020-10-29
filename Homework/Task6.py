@@ -1,44 +1,42 @@
-from itertools import count
-from itertools import cycle
-from my_functions import my_range
-from my_functions import my_cycle
-"""6. Реализовать два небольших скрипта:
-а) итератор, генерирующий целые числа, начиная с указанного,
-б) итератор, повторяющий элементы некоторого списка, определенного заранее.
-Подсказка: использовать функцию count() и cycle() модуля itertools.
-Обратите внимание, что создаваемый цикл не должен быть бесконечным. Необходимо предусмотреть условие его завершения.
-Например, в первом задании выводим целые числа, начиная с 3, а при достижении числа 10 завершаем цикл.
-Во втором также необходимо предусмотреть условие, при котором повторение элементов списка будет прекращено."""
+"""6. Необходимо создать (не программно) текстовый файл, где каждая строка описывает учебный предмет и
+наличие лекционных, практических и лабораторных занятий по этому предмету и их количество.
+Важно, чтобы для каждого предмета не обязательно были все типы занятий. Сформировать словарь,
+содержащий название предмета и общее количество занятий по нему. Вывести словарь на экран.
+Примеры строк файла:
+Информатика: 100(л) 50(пр) 20(лаб).
+Физика: 30(л) — 10(лаб)
+Физкультура: — 30(пр) —
 
+Пример словаря:
+{“Информатика”: 170, “Физика”: 40, “Физкультура”: 30}"""
 
-#  а) итератор, генерирующий целые числа, начиная с указанного,
-def my_range_with_itertools(start, end):
-    for i in count(start, 1):
-        if i >= end:
+def get_first_number(text):
+    """Метод ищет первое попавшееся целое число в строке.
+    Если число прерывается символом - возвращает число
+    Пример
+    get_first_number("30(л) — 10(лаб)") == 30"""
+    result = ''
+    for char in text:
+        if char.isdigit():
+            result += char
+        else:
             break
-        yield i
-
-
-#  б) итератор, повторяющий элементы некоторого списка, определенного заранее.
-def my_cycle_with_itertools(list, count):
-    if count < 1:
+    if result.isdigit():
+        return int(result)
+    else:
         return
-    for item in cycle(list):
-        yield item
-        count -= 1
-        if count < 1:
-            break
 
-def my_cycle_func(list,count):  #реализовано с использованием самописной функции из my_functions.py
-    if count < 1:
-        return
-    for item in my_cycle(list):
-        yield item
-        count -= 1
-        if count < 1:
-            break
 
-print(list(my_range(3,10)))  # реализовано с использованием самописной функции из my_functions.py
-print(list(my_cycle_func('ABC', 10)))   # реализовано с использованием самописной функции из my_functions.py
-print(list(my_range_with_itertools(3,10)))  # реализовано с использованием itertools
-print(list(my_cycle_with_itertools('ABC', 10)))  # реализовано с использованием itertools
+file = open("Task6Input.txt", "r", encoding="utf-8")
+lines = file.read().splitlines()
+file.close()
+
+result = {}
+for line in lines:
+    # line - Информатика: 100(л) 50(пр) 20(лаб).
+    header = line[:line.index(':')]  # Читаем слово до ':' - Информатика
+    values = line[line.index(':') + 2: len(line)].split(' ')  # весь текст после ": " - 100(л) 50(пр) 20(лаб).
+    hours_sum = sum([get_first_number(hours) for hours in values if get_first_number(hours) is not None])
+    result.update({header: hours_sum})
+
+print(result)
