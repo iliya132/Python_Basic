@@ -1,11 +1,26 @@
-"""2. Создать текстовый файл (не программно), сохранить в нем несколько строк, выполнить подсчет количества строк,
-количества слов в каждой строке."""
-from my_functions import my_enumerate
-try:
-    file = open("TestInput.txt", "r")
-    lines = file.readlines()
-    file.close()
-    for num, line in my_enumerate(lines, 1):
-        print(f'{num} строка - {len(line.split(" "))} слов')
-except IOError:
-    print("Не найден файл для чтения")
+"""2. Реализовать класс Road (дорога), в котором определить атрибуты: length (длина),
+width (ширина). Значения данных атрибутов должны передаваться при создании экземпляра класса.
+Атрибуты сделать защищенными. Определить метод расчета массы асфальта, необходимого для покрытия всего
+дорожного полотна. Использовать формулу: длина * ширина * масса асфальта для покрытия одного кв метра дороги
+асфальтом, толщиной в 1 см * чи сло см толщины полотна. Проверить работу метода.
+Например: 20м * 5000м * 25кг * 5см = 12500 т"""
+
+class Road:
+    _length = 0
+    _width = 0
+
+    def __init__(self, length, width):
+        self._length = length
+        self._width = width
+
+    def calc_asphalt_needed(self, asphalt_mass_per_meter, height):
+        """метод расчета массы асфальта, необходимого для покрытия всего дорожного полотна
+            asphalt_mass_per_meter: масса асфальта для покрытия одного кв метра дороги
+            асфальтом, толщиной в 1 см
+            height: см толщина полотна
+        """
+        return self._width * self._length * asphalt_mass_per_meter * height
+
+
+small_road = Road(1000, 4)
+print(f'{small_road.calc_asphalt_needed(10, 5) / 1000} tons')

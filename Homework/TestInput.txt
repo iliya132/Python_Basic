@@ -1,3 +1,0 @@
-TestString1
-TestString2 sometext
-TestString3 sometext2 sometext3 sometext4
