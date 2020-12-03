@@ -1,2 +1,2 @@
 # Python_Basic
-Базовый курс по Python
+Домашние задания к курсу "Базовый курс Python" от GeekBrains
